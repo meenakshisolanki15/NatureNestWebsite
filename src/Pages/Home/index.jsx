@@ -95,7 +95,7 @@ const Home = () => {
 
             <section className='!py-5 pt-0 bg-white'>
                 <div className='container'>
-                    <h3 className='text-[20px] font-[600]'>Latest Products</h3>
+                    <h2 className='text-[20px] font-[600]'>Latest Products</h2>
                     <ProductsSlider items={6} />
 
                     <AdsBannerSlider items={4} />
@@ -106,7 +106,7 @@ const Home = () => {
 
             <section className='!py-5 pt-0 bg-white'>
                 <div className='container'>
-                    <h3 className='text-[20px] font-[600]'>Featured Products</h3>
+                    <h2 className='text-[20px] font-[600]'>Featured Products</h2>
                     <ProductsSlider items={6} />
 
                     <AdsBannerSlider items={3} />

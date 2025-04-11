@@ -13,7 +13,7 @@ import { Navigation } from 'swiper/modules';
 
 export const ProductZoom = () => {
 
-    const [slideIndex, setSlideIndex] = useState(0);
+    const [ setSlideIndex] = useState(0);
     const zoomSliderBig = useRef();
     const zoomSliderSml = useRef();
 

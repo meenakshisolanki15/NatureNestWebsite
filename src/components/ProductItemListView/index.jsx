@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext } from 'react'
 import { Link } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 import { Button } from '@mui/material';
@@ -6,10 +6,12 @@ import { FaRegHeart } from "react-icons/fa";
 import { IoGitCompareSharp } from "react-icons/io5";
 import { MdOutlineZoomOutMap } from "react-icons/md";
 import { FaCartPlus } from "react-icons/fa";
-
+import { MyContext } from '../../App';
 
 
 const ProductItem = () => {
+
+     const context = useContext(MyContext);
     return (
         <div className='productItem shadow-lg !rounded-md overflow-hidden border-1 
         border-[rgba(0,0,0,0.1)] flex items-center'>
@@ -35,7 +37,7 @@ const ProductItem = () => {
                     flex-col w-[50px] transition-all duration-300 group-hover:!top-[15px] opacity-0 group-hover:opacity-100'>
 
                     <Button className='!w-[40px] !h-[40px] !min-w-[40px] !rounded-full !bg-white
-                        text-black hover:!bg-[#14eb1f] hover:text-white group'>
+                        text-black hover:!bg-[#14eb1f] hover:text-white group' onClick={()=>context.setOpenProductDetailsModel(true)}>
                         <MdOutlineZoomOutMap className='text-[18px] !text-black group-hover:text-white' />
                     </Button>
 
@@ -54,7 +56,7 @@ const ProductItem = () => {
 
 
             <div className='info !p-3 !py-5 !px-8 w-[75%] '>
-                <h6 className='text-[15px]'>
+                <h6 className='text-[15px] font-[400]'>
                     <Link to="/" className='link transition-all'>Name </Link>
                 </h6>
                 <h3 className='text-[18px] title !mt-3 !mb-3 font-[500] !mb-1 text-[#000]'>

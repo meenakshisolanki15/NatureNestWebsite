@@ -9,7 +9,10 @@ body{
   overflow-x: hidden;
 }
 
-p{font-size: 14px; line-height: 25px;}
+p{font-size: 14px; line-height: 25px; margin-bottom: 10px !important;}
+
+h1, h2, h3, h4, h5, h6{font-weight: 600 !important;}
+
 ::-webkit-scrollbar{width: 10px !important; height:  10px !important;}
 ::-webkit-scrollbar-thumb{background: #8ef54a !important; }
 ::-webkit-scrollbar-track{background: #fff !important;}
@@ -19,6 +22,8 @@ p{font-size: 14px; line-height: 25px;}
 .btn-org{background: #ff5252  !important; color: #fff !important; 
   font-weight: 500 !important; font-size: 16px !important; padding: 7px 20px !important;}
 .btn-org:hover{background: #05d310 !important;}
+
+.btn-lg{font-size: 18px !important; padding: 10px 20px !important;}
 
 .link:hover{color: #06680b;}
 .MuiBadge-badge{background-color: #17e721 !important;}
@@ -87,3 +92,20 @@ footer form input::placeholder{font-size: 14px;}
   
     .zoomProductSliderThumbs .swiper-button-prev::after{transform: rotate(90deg);}
     
+.productContent .actions button{min-width: 40px !important; height: 30px !important;
+  border: 10x solid rgba(0,0,0,0.1) !important; color: rgba(0,0,0,0.7);}
+
+  input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.reviewScroll::-webkit-scrollbar{width: 5px !important;}
+.reviewScroll::-webkit-scrollbar-thumb{background: #ccc !important;}
+
+.productDetailsModel .MuiDialogContent-root{padding: 0px !important;}
+
