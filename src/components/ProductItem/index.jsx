@@ -67,7 +67,7 @@ const ProductItem = () => {
 
                 <div className='flex items-center gap-4'>
                     <span className='oldPrice line-through text-gray-500 text-[15px] font-[500]'>price</span>
-                    <span className='oldPrice text-#ff5252 font-bold'>price</span>
+                    <span className='Price text-[#ff5252] text-[14px] font-[600]'>price</span>
                 </div>
             </div>
         </div>

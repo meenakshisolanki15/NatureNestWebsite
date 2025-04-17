@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
-import BlogItem from '../../components/BannerBox/BlogItem';
+import BlogItem from '../../components/BlogItem';
 
 
 

@@ -1,15 +1,32 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
+import { MyContext } from '../../App';
 
 
 const Login = () => {
 
     const [isPasswordShow, setIsPasswordShow] = useState(false);
+    // const [formFields, setFormsFields] = useState({
+    //     email :'',
+    //     password :''
+    // });
+
+    const context = useContext(MyContext);
+    const history = useNavigate();
+
+    const forgotPassword=()=>{
+        context.openAlertBox("Success", "OTP Send");
+        history('/verify');
+
+        
+    }
+
+
     return (
         <section className='section !py-10'>
             <div className='container'>
@@ -32,8 +49,9 @@ const Login = () => {
                                 label="Password *"
                                 variant="outlined"
                                 className='w-full'
+                                name='password'
                             />
-                            <Button className='!absolute !top-[10px] !right-[10px] z-50 !w-[35px] !h-[35px]
+                            <Button  type='submit' className='!absolute !top-[10px] !right-[10px] z-50 !w-[35px] !h-[35px]
                                 !min-w-[35px] !rounded-full !text-black' onClick={()=>setIsPasswordShow(!isPasswordShow)} >
 
                                     {isPasswordShow===false ? <IoEye className='text-[20px] opacity-75' /> :
@@ -44,7 +62,7 @@ const Login = () => {
                         </div>
 
 
-                        <a className='link cursor-pointer text-[14px] font-[600]'>Forgot Password?</a>
+                        <a className='link cursor-pointer text-[14px] font-[600]' onClick={forgotPassword}>Forgot Password?</a>
 
                         <div className='flex items-center w-full !mt-3 !mb-3'>
                             <Button className='btn-org btn-lg w-full'>Login</Button>
