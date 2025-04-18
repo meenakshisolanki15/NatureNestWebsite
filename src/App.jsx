@@ -13,12 +13,16 @@ import DialogContent from '@mui/material/DialogContent';
 import { ProductZoom } from './components/ProductZoom'
 import { IoClose } from "react-icons/io5";
 import { ProductDetailsComponent } from './components/ProductDetails'
-import Login from './Pages/Login'
-import Register from './Pages/Register'
-import CartPage from './Pages/Cart'
-import Verify from './Pages/Verify'
-import ForgotPassword from './Pages/ForgotPassword'
+import Login from './Pages/Login';
+import Register from './Pages/Register';
+import CartPage from './Pages/Cart';
+import Verify from './Pages/Verify';
+import ForgotPassword from './Pages/ForgotPassword';
+import Checkout from './Pages/Checkout';
 import toast, { Toaster } from 'react-hot-toast';
+import MyAccount from './Pages/MyAccount'
+import MyList from './Pages/MyList'
+import Orders from './Pages/Orders'
 
 
 
@@ -32,6 +36,7 @@ function App() {
   const [openProductDetailsModel, setOpenProductDetailsModel] = useState(false);
   const [maxWidth] = useState('lg');
   const [fullWidth] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   const [openCartPanel, setOpenCartPanel] = useState(false);
 
@@ -44,25 +49,27 @@ function App() {
     setOpenCartPanel(newOpen);
   };
 
-  const openAlertBox=(status, msg)=>{
-    if(status==='success'){
+  const openAlertBox = (status, msg) => {
+    if (status === 'success') {
       toast.success(msg);
     }
-    if(status==='error'){
+    if (status === 'error') {
       toast.success(msg);
     }
   };
 
-  
+
   const values = {
     setOpenProductDetailsModel,
     setOpenCartPanel,
     toggleCartPanel,
     openCartPanel,
-    openAlertBox
+    openAlertBox,
+    isLogin,
+    setIsLogin
   };
 
-  
+
 
   return (
     <>
@@ -101,17 +108,37 @@ function App() {
               exact={true}
               element={<Verify />} />
 
-<Route
+            <Route
               path={'/forgot-password'}
               exact={true}
               element={<ForgotPassword />} />
+
+            <Route
+              path={'/checkout'}
+              exact={true}
+              element={<Checkout />} />
+
+            <Route
+              path={'/my-account'}
+              exact={true}
+              element={<MyAccount />} />
+
+            <Route
+              path={'/my-list'}
+              exact={true}
+              element={<MyList />} />
+
+            <Route
+              path={'/my-orders'}
+              exact={true}
+              element={<Orders />} />
           </Routes>
           <Footer />
 
         </MyContext.Provider>
       </BrowserRouter>
 
-      <Toaster/>
+      <Toaster />
 
 
       <Dialog
