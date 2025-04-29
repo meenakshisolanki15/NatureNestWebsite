@@ -1,18 +1,36 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import OtpBox from '../../components/OtpBox';
 import { Button } from '@mui/material';
+import { postData } from '../../utils/api';
+import  {useNavigate}  from 'react-router-dom';
+import { MyContext } from '../../App';
 
 
 const Verify = () => {
 
+  const history = useNavigate();
+  const context = useContext(MyContext)
   const [otp, setOtp] = useState("");
   const handleOtpChange = (value) =>{
     setOtp(value);
   };
 
+
+
   const verifyOTP=(e)=>{
     e.preventDefault();
-    alert(otp);
+    postData("/api/user/verifyEmail",{
+      email:localStorage.getItem("userEmail"),
+      otp:otp
+    }).then((res)=>{
+      if(res?.error === false){
+        context.openAlertBox("success", res?.message);
+        localStorage.removeItem("userEmail"),
+        history("/login")
+      }else{
+        context.openAlertBox("error", res?.message);
+      }
+    })
   }
 
   return (
@@ -26,8 +44,8 @@ const Verify = () => {
                        Verify OTP 
                        </h3>
 
-                       <p className='text-center !mt-0 !mb-4'> OTP send to  <span className='text-primary 
-                       font-bold'>meenakshisolanki1232003@gmail.com</span>
+                       <p className='text-center !mt-0 !mb-4'> OTP send to {" "} 
+                        <span className='text-primary font-bold'>{localStorage.getItem("userEmail")}</span>
                        </p>
                    
                   <form onSubmit={verifyOTP}>

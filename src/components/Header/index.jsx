@@ -38,9 +38,16 @@ const Header = () => {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+    
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const logout=()=>{
+        setAnchorEl(null);
+
+        
+    }
 
     return (
         <header>
@@ -152,32 +159,32 @@ const Header = () => {
                                                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                             >
                                                 <Link to='/my-account' className='w-full block'>
-                                                <MenuItem
-                                                 onClick={handleClose} 
-                                                 className='flex gap-2 !py-3'
-                                                 >
-                                                    <FaCircleUser className='text-[18px]' />{" "}
-                                                    <span className='text-[14px]' >My Account</span>
-                                                </MenuItem>
+                                                    <MenuItem
+                                                        onClick={handleClose}
+                                                        className='flex gap-2 !py-3'
+                                                    >
+                                                        <FaCircleUser className='text-[18px]' />{" "}
+                                                        <span className='text-[14px]' >My Account</span>
+                                                    </MenuItem>
                                                 </Link>
 
                                                 <Link to='/my-orders' className='w-full block'>
-                                                <MenuItem onClick={handleClose} className='flex gap-2 !py-3'>
-                                                    <FaShoppingBag /> <span className='text-[14px]' >Orders</span>
-                                                </MenuItem>
+                                                    <MenuItem onClick={handleClose} className='flex gap-2 !py-3'>
+                                                        <FaShoppingBag /> <span className='text-[14px]' >Orders</span>
+                                                    </MenuItem>
                                                 </Link>
 
                                                 <Link to='/my-list' className='w-full block'>
-                                                <MenuItem onClick={handleClose} className='flex gap-2 !py-3'>
-                                                    <FaHeart /><span className='text-[14px]' >My List</span> 
-                                                </MenuItem>
+                                                    <MenuItem onClick={handleClose} className='flex gap-2 !py-3'>
+                                                        <FaHeart /><span className='text-[14px]' >My List</span>
+                                                    </MenuItem>
                                                 </Link>
 
-                                                
-                                                <MenuItem onClick={handleClose} className='flex gap-2 !py-3'>
+
+                                                <MenuItem onClick={logout} className='flex gap-2 !py-3'>
                                                     <IoIosLogOut /> <span className='text-[14px]' >Logout</span>
                                                 </MenuItem>
-                                                
+
 
                                             </Menu>
 

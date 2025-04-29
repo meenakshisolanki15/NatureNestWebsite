@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Header from './components/Header'
@@ -25,9 +25,6 @@ import MyList from './Pages/MyList'
 import Orders from './Pages/Orders'
 
 
-
-
-
 const MyContext = createContext();
 
 function App() {
@@ -37,6 +34,7 @@ function App() {
   const [maxWidth] = useState('lg');
   const [fullWidth] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
+ 
 
   const [openCartPanel, setOpenCartPanel] = useState(false);
 
@@ -49,16 +47,27 @@ function App() {
     setOpenCartPanel(newOpen);
   };
 
+
+  useEffect(()=>{
+    const token = localStorage.getItem('accesstoken');
+
+    if(token !== undefined && token !== null && token !== ""){
+      setIsLogin(true);
+    }else{
+      setIsLogin(false);
+    }
+  },[isLogin])
+
   const openAlertBox = (status, msg) => {
     if (status === 'success') {
       toast.success(msg);
     }
     if (status === 'error') {
-      toast.success(msg);
+      toast.error(msg);
     }
   };
 
-
+  
   const values = {
     setOpenProductDetailsModel,
     setOpenCartPanel,
@@ -67,6 +76,7 @@ function App() {
     openAlertBox,
     isLogin,
     setIsLogin
+   
   };
 
 
@@ -138,7 +148,7 @@ function App() {
         </MyContext.Provider>
       </BrowserRouter>
 
-      <Toaster />
+      
 
 
       <Dialog
@@ -170,6 +180,10 @@ function App() {
         </DialogContent>
 
       </Dialog>
+
+      <Toaster />
+
+
 
 
 
