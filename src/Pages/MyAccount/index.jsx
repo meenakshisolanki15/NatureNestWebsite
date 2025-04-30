@@ -1,9 +1,21 @@
 import { Button } from '@mui/material';
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import TextField from '@mui/material/TextField';
 import AccountSidebar from '../../components/AccountSidebar';
+import { MyContext } from '../../App';
+import { useNavigate } from 'react-router-dom';
 
 const MyAccount = () => {
+
+    const context = useContext(MyContext);
+    const history = useNavigate();
+
+    useEffect(()=>{
+        if(context?.isLogin===false){
+            history("/");
+        }
+
+    },[context?.isLogin])
     return (
         <section className='!py-10 w-full'>
             <div className='container flex gap-5'>

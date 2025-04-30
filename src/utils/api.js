@@ -27,15 +27,15 @@ export const postData = async (url, formData) => {
 }
 
 
-export const getData = async (url) => {
+export const fetchDataFromApi = async (url) => {
     try {
-        const { data } = await axios.get(localStorage.getItem("token") + url, {
-            headers: {
+        const { data } = await axios.get(apiUrl + url, { 
                 'Authorization': `Bearer ${localStorage.getItem("token")}`, // include our API key in the authorization
                 'Content-Type': 'application/json',  // Adjust the content type as needed
-            },
-        })
-        return data;
+                
+            })
+            return data;
+        
 
     } catch (error) {
         console.log(error);

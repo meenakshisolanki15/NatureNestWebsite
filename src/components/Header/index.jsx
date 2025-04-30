@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Search from '../Search';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
@@ -17,6 +17,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { IoIosLogOut } from "react-icons/io";
 import { FaShoppingBag } from "react-icons/fa";
+import { fetchDataFromApi } from '../../utils/api';
 
 
 
@@ -31,13 +32,15 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Header = () => {
     const context = useContext(MyContext)
-
+    const history = useNavigate();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+    
     
     const handleClose = () => {
         setAnchorEl(null);
@@ -46,7 +49,17 @@ const Header = () => {
     const logout=()=>{
         setAnchorEl(null);
 
-        
+        fetchDataFromApi(`/api/user/logout?token=${localStorage.getItem('accesstoken')}`, 
+        {withCredentials: true}).then((res)=>{
+            console.log(res);
+            if(res?.error === false){
+                context.setIsLogin(false);
+                localStorage.removeItem("accesstoken");
+                localStorage.removeItem("refreshtoken");
+                history("/");
+            }
+            
+        })
     }
 
     return (
@@ -114,10 +127,15 @@ const Header = () => {
                                                 </Button>
 
                                                 <div className='info flex flex-col'>
-                                                    <h4 className=' leading-3 text-[14px]  text-[rgba(0,0,0,0.6)] font-[500] !mb-0 capitalize text-[left] 
-                                                        justify-start'> Manohar Solanki</h4>
+                                                    <h4 className=' leading-3 text-[14px
+                                                    ]  text-[rgba(0,0,0,0.6)] font-[500] !mb-0 capitalize text-[left] 
+                                                        justify-start'> 
+                                                        
+                                                        {context?.userData?.name}
+
+                                                        </h4>
                                                     <span className='text-[13px] text-[rgba(0,0,0,0.6)] font-[400] capitalize text-left
-                                                        justify-start'>manohar23@gmail.com</span>
+                                                        justify-start'>{context?.userData?.email}</span>
                                                 </div>
                                             </Button>
 

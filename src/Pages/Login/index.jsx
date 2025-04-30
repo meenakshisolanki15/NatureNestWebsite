@@ -24,9 +24,27 @@ const Login = () => {
     const context = useContext(MyContext);
     const history = useNavigate();
 
-    const forgotPassword = () => {
-        context.openAlertBox("Success", "OTP Send");
-        history('/verify');
+    const forgotPassword =()=> {
+        if (formFields.email === "") {
+            context.openAlertBox("error", "Please enter email id");
+            return false;
+        } else {
+            context.openAlertBox("success", `OTP send to  ${formFields.email}`);
+            localStorage.setItem("userEmail", formFields.email);
+            localStorage.setItem('actionType', 'forgot-password');
+
+            postData("/api/user/forgot-password", {
+                email: formFields.email,
+            }).then((res) => {
+                if (res?.error === false) {
+                    context.openAlertBox("success", res?.message);
+                    history("/verify")
+                } else {
+                    context.openAlertBox("error", res?.message);
+                }
+            })
+        }
+
     }
 
     const onChangeInput = (e) => {
@@ -58,7 +76,7 @@ const Login = () => {
         }
 
 
-        postData("/api/user/login", formFields).then((response) => {
+        postData("/api/user/login", formFields, { withCredentials: true }).then((response) => {
             console.log(response);
 
             if (response?.error !== true) {
