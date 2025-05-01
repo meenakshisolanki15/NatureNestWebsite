@@ -8,7 +8,7 @@ import { FaHeart } from "react-icons/fa6";
 import { NavLink } from 'react-router-dom';
 import { MyContext } from '../../App';
 import CircularProgress from '@mui/material/CircularProgress';
-import { editData } from '../../../../admin/src/utils/api';
+import { uploadImage } from '../../../../admin/src/utils/api';
 
 const AccountSidebar = () => {
     const [previews, setPreviews] = useState([]);
@@ -17,23 +17,23 @@ const AccountSidebar = () => {
 
     const formdata = new FormData();
 
-    useEffect(()=>{
+    useEffect(() => {
         const userAvatar = [];
-        userAvatar.push(context?.userData?.avatar);
-        setPreviews(userAvatar)
-    },[context?.userData])
+        if(context?.userData?.avatar!=="" && context?.userData?.avatar !== undefined){
+            userAvatar.push(context?.userData?.avatar);
+            setPreviews(userAvatar)
+        }
+       
+    }, [context?.userData])
 
-
-    let img_arr = [];
-    let uniqueArray = [];
     let selectedImages = [];
 
-    const onChangeFile = async (e, apiEndPoint) => {
+    const onChangeFile = async (e) => {
         try {
             setPreviews([]);
             const files = e.target.files;
             setUploading(true);
-            
+
 
             for (var i = 0; i < files.length; i++) {
                 if (files[i] && (files[i].type === 'image/jpeg' ||
@@ -55,13 +55,13 @@ const AccountSidebar = () => {
                 }
             }
 
-            editData("/api/user/user-avatar", formdata).then((res) => {
+            uploadImage("/api/user/user-avatar", formdata).then((res) => {
                 setUploading(false);
                 let avatar = [];
                 console.log(res?.data?.avatar);
                 avatar.push(res?.data?.avatar);
                 setPreviews(avatar);
-                
+
 
             })
 
@@ -88,19 +88,16 @@ const AccountSidebar = () => {
                                             />
 
                                         )
-                                    }) : 
-                                    <img 
+                                    })
+                                    :
+                                    <img
                                     src={"/user.webp"}
-                                    className='w-full h-full object-cover'
-                                    />
-                                
-
+                                    className='w-full h-full object-cover '
+                                />
                                 }
 
                             </>
-
                     }
-
 
 
                     <div className='overlay w-[100%] h-[100%] absolute top-0 left-0 z-50 

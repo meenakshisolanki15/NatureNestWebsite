@@ -57,8 +57,18 @@ function App() {
       setIsLogin(true);
 
       fetchDataFromApi(`/api/user/user-details?token=${token}`).then((res)=>{
-        console.log(res)
+        
         setUserData(res.data);
+   
+          if(res?.response?.data?.message === "You have not login"){
+            localStorage.removeItem("accesstoken");
+            localStorage.removeItem("refreshtoken");
+            openAlertBox("error", "your session is closed please login again");
+  
+            setIsLogin(false);
+          }
+        
+        
       })
 
     }else{
