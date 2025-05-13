@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Header from './components/Header'
@@ -23,7 +23,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import MyAccount from './Pages/MyAccount'
 import MyList from './Pages/MyList'
 import Orders from './Pages/Orders'
-import { fetchDataFromApi } from './utils/api'
+import { fetchDataFromApi, postData } from './utils/api'
+import ImageRecognition from './components/ImageRecognition/imageRecognition'
 
 
 const MyContext = createContext();
@@ -31,18 +32,36 @@ const MyContext = createContext();
 function App() {
 
 
-  const [openProductDetailsModel, setOpenProductDetailsModel] = useState(false);
+  const [openProductDetailsModel, setOpenProductDetailsModel] = useState({
+    open: false,
+    item: {},
+  });
   const [maxWidth] = useState('lg');
   const [fullWidth] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
   const [userData, setUserData] = useState(null);
- 
+  const [catData, setCatData] = useState([]);
+  const [productData, setProductData] = useState([]);
+  const [cartData, setCartData] = useState([]);
 
   const [openCartPanel, setOpenCartPanel] = useState(false);
 
 
+
+  const handleOpenProductDetailsModel = (status, item) => {
+    setOpenProductDetailsModel({
+      open: status,
+      item: item
+    });
+
+  };
+
   const handleCloseProductDetailsModel = () => {
-    setOpenProductDetailsModel(false);
+    setOpenProductDetailsModel({
+      open: false,
+      item: {}
+    });
+
   };
 
   const toggleCartPanel = (newOpen) => () => {
@@ -50,31 +69,45 @@ function App() {
   };
 
 
-  useEffect(()=>{
+  useEffect(() => {
     const token = localStorage.getItem('accesstoken');
 
-    if(token !== undefined && token !== null && token !== ""){
+    if (token !== undefined && token !== null && token !== "") {
       setIsLogin(true);
 
-      fetchDataFromApi(`/api/user/user-details?token=${token}`).then((res)=>{
-        
+      fetchDataFromApi(`/api/user/user-details?token=${token}`).then((res) => {
+
         setUserData(res.data);
-   
-          if(res?.response?.data?.message === "You have not login"){
-            localStorage.removeItem("accesstoken");
-            localStorage.removeItem("refreshtoken");
-            openAlertBox("error", "your session is closed please login again");
-  
-            setIsLogin(false);
-          }
-        
-        
+
+        if (res?.response?.data?.message === "You have not login") {
+          localStorage.removeItem("accesstoken");
+          localStorage.removeItem("refreshtoken");
+          openAlertBox("error", "your session is closed please login again");
+
+          setIsLogin(false);
+        }
+
+
       })
 
-    }else{
+      getCartItems();
+
+    } else {
       setIsLogin(false);
     }
-  },[isLogin])
+  }, [isLogin])
+
+
+
+
+  useEffect(() => {
+    fetchDataFromApi("/api/category").then((res) => {
+      if (res?.error === false) {
+        setCatData(res?.data);
+      }
+    })
+  }, []);
+
 
   const openAlertBox = (status, msg) => {
     if (status === 'success') {
@@ -85,9 +118,55 @@ function App() {
     }
   };
 
-  
+  const addToCart = (product, userId, quantity) => {
+
+    if (userId === undefined) {
+      openAlertBox("error", "you are not login! please login first");
+      return false;
+    }
+    const data = {
+      productTitle: product?.name,
+      image: product?.images[0],
+      rating: product?.rating,
+      price: product?.price,
+      oldPrice: product?.oldPrice,
+      discount: product?.discount,
+      quantity: quantity,
+      subTotal: parseInt(product?.price * quantity),
+      productId: product?._id,
+      countInStock: product?.countInStock,
+      userId: userId,
+    }
+
+    postData("/api/cart/add", data).then((res) => {
+      if (res?.error === false) {
+        openAlertBox("success", res?.message);
+        getCartItems();
+
+      } else {
+        openAlertBox("error", res?.message);
+      }
+    })
+
+
+  }
+
+  const getCartItems = () => {
+    const token = localStorage.getItem('accesstoken');
+
+    if (token !== undefined && token !== null && token !== "") {
+      fetchDataFromApi(`/api/cart/get?token=${token}`).then((res) => {
+        if (res?.error === false) {
+          setCartData(res?.data);
+        }
+      })
+    }
+  }
+
+
   const values = {
     setOpenProductDetailsModel,
+    handleOpenProductDetailsModel,
     setOpenCartPanel,
     toggleCartPanel,
     openCartPanel,
@@ -95,8 +174,14 @@ function App() {
     isLogin,
     setIsLogin,
     userData,
-    setUserData
-   
+    setUserData,
+    catData,
+    setCatData,
+    productData,
+    setProductData,
+    addToCart,
+    cartData,
+
   };
 
 
@@ -162,17 +247,22 @@ function App() {
               path={'/my-orders'}
               exact={true}
               element={<Orders />} />
+
+            <Route
+              path="/image-recognition"
+              element={<ImageRecognition />} />
+
           </Routes>
           <Footer />
 
         </MyContext.Provider>
       </BrowserRouter>
 
-      
+
 
 
       <Dialog
-        open={openProductDetailsModel}
+        open={openProductDetailsModel.open}
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         onClose={handleCloseProductDetailsModel}
@@ -189,13 +279,20 @@ function App() {
               <IoClose className='text-[20px]' />
 
             </Button>
-            <div className="col1 w-[40%]  !px-3">
-              <ProductZoom />
-            </div>
 
-            <div className='col2 w-[60%] !py-8 !px-8 !pr-16 productContent'>
-              <ProductDetailsComponent />
-            </div>
+            {
+              openProductDetailsModel?.item?.length !== 0 &&
+              <>
+                <div className="col1 w-[40%]  !px-3">
+                  <ProductZoom images={openProductDetailsModel?.item?.images} />
+                </div>
+
+                <div className='col2 w-[60%] !py-8 !px-8 !pr-16 productContent'>
+                  <ProductDetailsComponent data={openProductDetailsModel?.item} />
+                </div>
+              </>
+            }
+
           </div>
         </DialogContent>
 

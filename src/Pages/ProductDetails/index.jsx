@@ -50,9 +50,6 @@ export const ProductDetails = () => {
 
                     <div className='productContent w-[60%] !pr-10 !pl-10'>
                         <ProductDetailsComponent/>
-
-
-
                     </div>
                 </div>
 

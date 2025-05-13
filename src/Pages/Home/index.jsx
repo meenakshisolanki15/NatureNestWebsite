@@ -1,33 +1,58 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import HomeSlider from '../../components/HomeSlider';
 import HomeCatSlider from '../../components/HomeCatSlider';
 import { TbTruckDelivery } from "react-icons/tb";
 import AdsBannerSlider from '../../components/AdsBannerSlider';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+// import Tabs from '@mui/material/Tabs';
+// import Tab from '@mui/material/Tab';
 import ProductsSlider from '../../components/ProductsSlider';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 import BlogItem from '../../components/BlogItem';
-
-
+import { MyContext } from '../../App';
+import { fetchDataFromApi } from '../../utils/api';
 
 
 const Home = () => {
-    const [value, setValue] = React.useState(0);
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+   // const [value, setValue] = React.useState(0);
+    const context = useContext(MyContext);
+    //const [popularProductsData, setPopularProductsData] = useState([]);
 
+
+    
+    useEffect(()=>{
+        fetchDataFromApi(`/api/category`).then((res) => {
+            if(res?.error === false){
+                context?.setCatData(res?.data);
+            }   
+        })
+       
+    },[])
+
+    
+
+    // const handleChange = (event, newValue) => {
+    //     setValue(newValue);
+    // };
+
+    useEffect(() => {
+        fetchDataFromApi("/api/product/getAllProducts").then((res) => {
+            //console.log(res?.data);
+            context.setProductData(res?.data);
+        })
+    },[]);
+        
+    
+    
     return (
         <>
-         <HomeSlider/>
-            
-            <HomeCatSlider />
-
+            <HomeSlider />
+            {
+                context?.catData?.length !== 0 && <HomeCatSlider data={context?.catData} />
+            }
             <section className='bg-white !py-8'>
                 <div className='container'>
                     <div className='flex items-center justify-between'>
@@ -36,7 +61,7 @@ const Home = () => {
                             <p className='text-[14px] font-[400]'> Do not miss the current offer until the end of March.</p>
                         </div>
 
-                        <div className='rightSec w-[60%]'>
+                        {/* <div className='rightSec w-[60%]'>
                             <Tabs
                                 value={value}
                                 onChange={handleChange}
@@ -44,27 +69,22 @@ const Home = () => {
                                 scrollButtons="auto"
                                 aria-label="scrollable auto tabs example"
                             >
-                                <Tab label="Item One" />
-                                <Tab label="Item Two" />
-                                <Tab label="Item Three" />
-                                <Tab label="Item Four" />
-                                <Tab label="Item Five" />
-                                <Tab label="Item Six" />
-                                <Tab label="Item Seven" />
-                                <Tab label="Item One" />
-                                <Tab label="Item Two" />
-                                <Tab label="Item Three" />
-                                <Tab label="Item Four" />
-                                <Tab label="Item Five" />
-                                <Tab label="Item Six" />
-                                <Tab label="Item Seven" />
+                                {
+                                    context?.catData?.length !== 0 && context?.catData?.map((cat, index)=>{
+                                        return (
+                                            <Tab label={cat?.name} onClick={()=>filterByCatId(cat?._id)} />
+                                        )
+                                    })
+                                }        
                             </Tabs>
-                        </div>
+                        </div> */}
                     </div>
 
-
-                    <ProductsSlider items={6} />
-
+                    {
+                        context?.productData?.length !== 0 && <ProductsSlider data={context?.productData} items={6}  />
+                    }
+                    
+                    
                 </div>
             </section>
 
@@ -86,14 +106,12 @@ const Home = () => {
 
 
                     <AdsBannerSlider items={4} />
-
-
                 </div>
             </section>
 
 
 
-            <section className='!py-5 pt-0 bg-white'>
+            {/* <section className='!py-5 pt-0 bg-white'>
                 <div className='container'>
                     <h2 className='text-[20px] font-[600]'>Latest Products</h2>
                     <ProductsSlider items={6} />
@@ -112,12 +130,12 @@ const Home = () => {
                     <AdsBannerSlider items={3} />
 
                 </div>
-            </section>
+            </section> */}
 
 
             <section className='!py-5 pb-2 pt-0 bg-white blogSection'>
                 <div className='container'>
-                <h3 className='text-[20px] font-[600] mb-4'>From The Blog</h3>
+                    <h3 className='text-[20px] font-[600] mb-4'>From The Blog</h3>
                     <Swiper
                         slidesPerView={4}
                         spaceBetween={15}
@@ -126,35 +144,29 @@ const Home = () => {
                         className="blogSlider"
                     >
                         <SwiperSlide>
-                            <BlogItem/>
+                            <BlogItem />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <BlogItem/>
+                            <BlogItem />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <BlogItem/>
+                            <BlogItem />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <BlogItem/>
+                            <BlogItem />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <BlogItem/>
+                            <BlogItem />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <BlogItem/>
+                            <BlogItem />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <BlogItem/>
+                            <BlogItem />
                         </SwiperSlide>
                     </Swiper>
                 </div>
             </section>
-
-
-
-            
-            
-
         </>
     )
 }

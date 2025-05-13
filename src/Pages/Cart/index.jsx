@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button } from '@mui/material';
 import { BsFillBagCheckFill } from "react-icons/bs";
 import CartItems from './cartItems';
+import { MyContext } from '../../App';
 
 
 const CartPage = () => {
+    const context = useContext(MyContext);
 
 
     return (
@@ -16,18 +18,21 @@ const CartPage = () => {
                         <div className='shadow-md rounded-md bg-white'>
                             <div className='!py-2 !px-3 border-b border-[rgba(0,0,0,0.1)]'>
                                 <h2> Your Cart </h2>
-                                <p className='!mt-0'> There are <span className='font-bold text-[#ff5252]'> 2 </span>
+                                <p className='!mt-0'> There are <span className='font-bold text-[#ff5252]'> 
+                                {context?.cartData?.length} </span>
                                     products in your cart
 
                                 </p>
                             </div>
-                            <CartItems size='1 kg'/>
-                            <CartItems size='1 kg'/>
-                            <CartItems size='1 kg'/>
-                            <CartItems size='1 kg'/>
-                            <CartItems size='1 kg'/>
-                            <CartItems size='1 kg'/>
-                            <CartItems size='1 kg'/>
+
+                            {
+                                context?.cartData?.length !== 0 && context?.cartData?.map((item, index)=>{
+                                    return(
+                                        <CartItems qty={item?.quantity} item={item} key={index} />
+                                    )
+                                })
+                            }
+                        
                             
                             
                            

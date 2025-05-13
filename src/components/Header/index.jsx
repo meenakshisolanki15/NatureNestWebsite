@@ -40,26 +40,27 @@ const Header = () => {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    
-    
+
+
     const handleClose = () => {
         setAnchorEl(null);
     };
 
-    const logout=()=>{
+    const logout = () => {
         setAnchorEl(null);
 
-        fetchDataFromApi(`/api/user/logout?token=${localStorage.getItem('accesstoken')}`, 
-        {withCredentials: true}).then((res)=>{
-            console.log(res);
-            if(res?.error === false){
-                context.setIsLogin(false);
-                localStorage.removeItem("accesstoken");
-                localStorage.removeItem("refreshtoken");
-                history("/");
-            }
-            
-        })
+        fetchDataFromApi(`/api/user/logout?token=${localStorage.getItem('accesstoken')}`,
+            { withCredentials: true }).then((res) => {
+                console.log(res);
+                if (res?.error === false) {
+                    context.setIsLogin(false);
+                    localStorage.removeItem("accesstoken");
+                    localStorage.removeItem("refreshtoken");
+                    context.setUserData(null);
+                    history("/");
+                }
+
+            })
     }
 
     return (
@@ -129,11 +130,11 @@ const Header = () => {
                                                 <div className='info flex flex-col'>
                                                     <h4 className=' leading-3 text-[14px
                                                     ]  text-[rgba(0,0,0,0.6)] font-[500] !mb-0 capitalize text-[left] 
-                                                        justify-start'> 
-                                                        
+                                                        justify-start'>
+
                                                         {context?.userData?.name}
 
-                                                        </h4>
+                                                    </h4>
                                                     <span className='text-[13px] text-[rgba(0,0,0,0.6)] font-[400] capitalize text-left
                                                         justify-start'>{context?.userData?.email}</span>
                                                 </div>
@@ -209,28 +210,18 @@ const Header = () => {
                                         </>
                                     )}
 
-                            <li>
-                                <Tooltip title="Compare">
-                                    <IconButton aria-label="cart">
-                                        <StyledBadge badgeContent={4} color="secondary">
-                                            <IoGitCompare />
-                                        </StyledBadge>
-                                    </IconButton>
-                                </Tooltip>
-                            </li>
-                            <li>
-                                <Tooltip title="Wishlist">
-                                    <IconButton aria-label="cart">
-                                        <StyledBadge badgeContent={4} color="secondary">
-                                            <FaHeart />
-                                        </StyledBadge>
-                                    </IconButton>
-                                </Tooltip>
-                            </li>
+                            <Link to="/image-recognition" className="nav-link">
+                                Identify Product
+                            </Link>
                             <li>
                                 <Tooltip title="cart">
-                                    <IconButton aria-label="cart" onClick={() => context.setOpenCartPanel(true)}>
-                                        <StyledBadge badgeContent={4} color="secondary">
+                                    <IconButton 
+                                    aria-label="cart" 
+                                    onClick={() => context.setOpenCartPanel(true)}
+                                    >
+                                        {console.log(context?.cartData?.length)}
+
+                                        <StyledBadge badgeContent={context?.cartData?.length} color="secondary">
                                             <IoCartSharp />
                                         </StyledBadge>
                                     </IconButton>
