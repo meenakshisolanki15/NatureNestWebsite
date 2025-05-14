@@ -219,7 +219,7 @@ const Header = () => {
                                     aria-label="cart" 
                                     onClick={() => context.setOpenCartPanel(true)}
                                     >
-                                        {console.log(context?.cartData?.length)}
+                                        {/* {console.log(context?.cartData?.length)} */}
 
                                         <StyledBadge badgeContent={context?.cartData?.length} color="secondary">
                                             <IoCartSharp />

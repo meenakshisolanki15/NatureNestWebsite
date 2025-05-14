@@ -3,9 +3,6 @@ import React, { useState } from 'react'
 
 const ImageRecognition = () => {
 
-
-    console.log("ImageRecognition page loaded");
-
     const [image, setImage] = useState(null);
     const [result, setResult] = useState(null);
 

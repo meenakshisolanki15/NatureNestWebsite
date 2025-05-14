@@ -31,7 +31,7 @@ const CartPanel = (props) => {
 
                                     <p className='flex items-center gap-5 !mt-2 !mb-2'>
                                         <span>Qty : <span>{item?.quantity}</span></span>
-                                        <span className='text-[#ff5252] font-bold'>Price : &#x20b9; {item?.price} </span>
+                                        <span className='text-[#ff5252] font-bold'>Price : &#x20b9; {(item?.price) * (item?.quantity)} </span>
                                     </p>
                                     {/* <MdOutlineDeleteOutline className='absolute top-[10px] right-[10px] 
                                         cursor-pointer text-[20px] link transition-all'/> */}

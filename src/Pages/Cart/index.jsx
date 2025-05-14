@@ -7,6 +7,7 @@ import { MyContext } from '../../App';
 
 const CartPage = () => {
     const context = useContext(MyContext);
+    window.scrollTo(0,0);
 
 
     return (
@@ -49,7 +50,14 @@ const CartPage = () => {
 
                             <p className='flex items-center justify-between'>
                                 <span className='text-[14px] font-[500]'>Subtotal</span>
-                                <span className='text-[#ff5252] font-bold'>₹1,200.00</span>
+                                <span className='text-[#ff5252] font-bold'>
+                                {
+                                (context?.cartData?.length !== 0 ?
+                                    context?.cartData?.map(item => parseInt(item.price) * item.quantity).reduce(
+                                        (total, value) => total + value, 0) : 0)?.toLocaleString('en-US',
+                                            { style: 'currency', currency: 'INR' })
+                            }
+                                </span>
                             </p>
                             <p className='flex items-center justify-between'>
                                 <span className='text-[14px] font-[500]'>Shipping</span>
@@ -61,11 +69,18 @@ const CartPage = () => {
                             </p>
                             <p className='flex items-center justify-between'>
                                 <span className='text-[14px] font-[500]'>Total</span>
-                                <span className='text-[#ff5252] font-bold'>₹1,200.00</span>
+                                <span className='text-[#ff5252] font-bold'>
+                                {
+                                (context?.cartData?.length !== 0 ?
+                                    context?.cartData?.map(item => parseInt(item.price) * item.quantity).reduce(
+                                        (total, value) => total + value, 0) : 0)?.toLocaleString('en-US',
+                                            { style: 'currency', currency: 'INR' })
+                            }
+                                </span>
                             </p>
 
-                            <Button className='btn-org btn-lg w-full flex gap-2'>
-                                <BsFillBagCheckFill className='text-[20px]' />Checkout</Button>
+                            {/* <Button className='btn-org btn-lg w-full flex gap-2'>
+                                <BsFillBagCheckFill className='text-[20px]' />Checkout</Button> */}
                         </div>
                     </div>
                 </div>

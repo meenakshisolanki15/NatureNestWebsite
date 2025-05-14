@@ -16,8 +16,8 @@ const CartItems = (props) => {
             </div>
 
             <div className='info w-[85%] relative'>
-                <IoMdClose className='cursor-pointer absolute top-[10px] right-[10px] text-[22px]
-            link transiton-all '/>
+                {/* <IoMdClose className='cursor-pointer absolute top-[10px] right-[10px] text-[22px]
+            link transiton-all '/> */}
                 
                 <h3 className='text-[13px] '> <Link className='link'>{props?.item?.productTitle}
                 </Link></h3>
@@ -26,9 +26,8 @@ const CartItems = (props) => {
                 
 
                 <div className='flex items-center gap-4 !mt-2'>
-                    <span className='Price text-[#ff5252] text-[14px] font-[600]'>&#x20b9; {props?.item.price}</span>
-                    <span className='oldPrice line-through text-gray-500 text-[14px] font-[500]'>&#x20b9; {props?.item.oldPrice}</span>
-                    <span className='Price text-[#ff5252] text-[14px] font-[600]'>{props?.item?.discount}</span>
+                    <span className='Price text-[#ff5252] text-[14px] font-[600]'>&#x20b9; {(props?.item.price) * (props?.item.quantity)}</span>
+                    
                 </div>
             </div>
         </div>

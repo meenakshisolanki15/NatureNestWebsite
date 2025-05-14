@@ -6,9 +6,7 @@ import Rating from '@mui/material/Rating';
 import { Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import ProductSlider from '../../components/ProductsSlider';
-import { ProductDetailsComponent } from '../../components/ProductDetails';
-
-
+import ProductDetailsComponent from '../../components/ProductDetails';
 
 
 export const ProductDetails = () => {

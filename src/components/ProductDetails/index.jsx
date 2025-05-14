@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Button } from '@mui/material';
 import { QtyBox } from '../../components/QtyBox';
 import { MdOutlineZoomOutMap } from "react-icons/md";
-// import { IoGitCompareSharp } from "react-icons/io5";
-// import { FaRegHeart } from "react-icons/fa";
 import Rating from '@mui/material/Rating';
+import { MyContext } from '../../App';
 
+const ProductDetailsComponent =(props)=> {
 
+    const context = useContext(MyContext);
+    const [quantity, setQuantity] = useState(1);
+    
+    const handleSelectQty=(qty)=>{
+        setQuantity(qty);
+    }
 
-export const ProductDetailsComponent = (props) => {
-
-    console.log("Product item:", props?.data);
-
-    //const [productActionIndex, setProductActionsIndex] = useState(null);
+    const addToCart = (product, userId, quantity) => {
+        context?.addToCart(product, userId, quantity);
+    }
     return (
         <>
 
@@ -45,15 +49,18 @@ export const ProductDetailsComponent = (props) => {
                 <p className='text-[14px] !mt-4 !mb-2  text-[#000] !px-5'> Free Shipping (Est. Delivery Time 2-3 Days)7</p>
                 <div className='flex items-center !mt-4 gap-4 !px-5'>
                     <div className='qtyBoxWrapper w-[75px] !mb-8'>
-                        <QtyBox />
+                        <QtyBox handleSelectQty={handleSelectQty}/>
 
                     </div>
-                    <Button className='btn-org flex gap-2 !mb-8'>
+                    <Button className='btn-org flex gap-2 !mb-8'  
+                    onClick={()=>addToCart(props?.data, context?.userData?._id, quantity)}>
                         <MdOutlineZoomOutMap className='text-[22px]' />Add to Cart
 
                     </Button>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
+
+export default ProductDetailsComponent;
