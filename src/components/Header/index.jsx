@@ -12,12 +12,13 @@ import Navigation from './Navigation';
 import { MyContext } from '../../App';
 import { Button } from '@mui/material';
 import { FaCircleUser } from "react-icons/fa6";
-
+import { IoChatbubbleEllipses } from "react-icons/io5";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { IoIosLogOut } from "react-icons/io";
 import { FaShoppingBag } from "react-icons/fa";
 import { fetchDataFromApi } from '../../utils/api';
+
 
 
 
@@ -33,6 +34,10 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const Header = () => {
     const context = useContext(MyContext)
     const history = useNavigate();
+
+    const handleOpenAnna = () => {
+        history('/anna'); 
+    };
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -210,14 +215,14 @@ const Header = () => {
                                         </>
                                     )}
 
-                            <Link to="/image-recognition" className="nav-link">
+                            <Link to="/image-recognition" className="nav-link text-black">
                                 Identify Product
                             </Link>
                             <li>
                                 <Tooltip title="cart">
-                                    <IconButton 
-                                    aria-label="cart" 
-                                    onClick={() => context.setOpenCartPanel(true)}
+                                    <IconButton
+                                        aria-label="cart"
+                                        onClick={() => context.setOpenCartPanel(true)}
                                     >
                                         {/* {console.log(context?.cartData?.length)} */}
 
@@ -226,6 +231,19 @@ const Header = () => {
                                         </StyledBadge>
                                     </IconButton>
                                 </Tooltip>
+                                <Tooltip title="anna">
+                                    <IconButton
+                                        aria-label="anna"
+                                        onClick={handleOpenAnna}
+                                    >
+
+
+                                        <StyledBadge color="secondary">
+                                            <IoChatbubbleEllipses />
+                                        </StyledBadge>
+                                    </IconButton>
+                                </Tooltip>
+
                             </li>
                         </ul>
 

@@ -25,6 +25,7 @@ import Orders from './Pages/Orders'
 import { fetchDataFromApi, postData } from './utils/api'
 import ImageRecognition from './components/ImageRecognition/imageRecognition'
 import ProductDetailsComponent from './components/ProductDetails'
+import Anna from './components/Anna'
 
 
 const MyContext = createContext();
@@ -248,6 +249,9 @@ function App() {
             <Route
               path="/image-recognition"
               element={<ImageRecognition />} />
+            <Route
+              path="/anna"
+              element={<Anna />} />
 
           </Routes>
           <Footer />
